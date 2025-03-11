@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://n2ul8okjhy5m"]
+
+[ext_resource type="Script" path="res://network_manager.gd" id="1_a1e13"]
+[ext_resource type="PackedScene" uid="uid://b5kksc4jow2rc" path="res://character_body_2d.tscn" id="1_itmqi"]
+[ext_resource type="Script" path="res://node.gd" id="1_qmicb"]
+[ext_resource type="PackedScene" uid="uid://dn5gtc3bkny8r" path="res://chat.tscn" id="2_7e0je"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_12046"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbl7n"]
+size = Vector2(1149, 20)
+
+[node name="Node" type="Node"]
+script = ExtResource("1_qmicb")
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("1_a1e13")
+chat = ExtResource("2_7e0je")
+player_scene = ExtResource("1_itmqi")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Node2D"]
+physics_material_override = SubResource("PhysicsMaterial_12046")
+gravity_scale = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/RigidBody2D"]
+position = Vector2(575.5, 445)
+shape = SubResource("RectangleShape2D_rbl7n")
+
+[node name="Players" type="Node" parent="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="Node2D"]
+anchor_mode = 0
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://character_body_2d.tscn")
+spawn_path = NodePath("../Node2D/Players")
+spawn_limit = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="host" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "host
+"
+
+[node name="join" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "join"
+icon_alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TextEdit" type="TextEdit" parent="Control/VBoxContainer2"]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+placeholder_text = "type your thing here
+"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Chat" parent="Control/VBoxContainer3" instance=ExtResource("2_7e0je")]
+layout_mode = 2
+
+[connection signal="pressed" from="Control/VBoxContainer/host" to="Node2D" method="host"]
+[connection signal="pressed" from="Control/VBoxContainer/join" to="Node2D" method="on_join_pressed"]
