@@ -12,6 +12,7 @@ func host():
 
 func add_player(id = 1):
 	var player = player_scene.instantiate()
+	DisplayServer.window_set_title(str(id))
 	player.name = str(id)
 	$Players.add_child(player)
 	$"../Control/VBoxContainer3/Chat".add_message("Server", str(player.name) + " joined")
