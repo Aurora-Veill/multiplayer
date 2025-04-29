@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://n2ul8okjhy5m"]
+[gd_scene load_steps=12 format=3 uid="uid://n2ul8okjhy5m"]
 
 [ext_resource type="Script" path="res://network_manager.gd" id="1_a1e13"]
 [ext_resource type="PackedScene" uid="uid://b5kksc4jow2rc" path="res://character_body_2d.tscn" id="1_itmqi"]
 [ext_resource type="Script" path="res://node.gd" id="1_qmicb"]
 [ext_resource type="PackedScene" uid="uid://dn5gtc3bkny8r" path="res://chat.tscn" id="2_7e0je"]
 [ext_resource type="Texture2D" uid="uid://w2sdj4ah10nn" path="res://Screenshot 2025-03-14 224718.png" id="5_ido00"]
+[ext_resource type="PackedScene" uid="uid://b4lj2rwlof4w3" path="res://bars.tscn" id="6_7a1x4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2uj2u"]
 size = Vector2(503, 244)
@@ -14,62 +15,17 @@ properties/0/path = NodePath("Sprite2D:modulate")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_12046"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qqfhb"]
+size = Vector2(2310, 50)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbl7n"]
-size = Vector2(1149, 20)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trdn4"]
+size = Vector2(60, 1296)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oue8t"]
-size = Vector2(100, 100)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64yig"]
+size = Vector2(50, 1296)
 
 [node name="Node" type="Node"]
 script = ExtResource("1_qmicb")
-
-[node name="Node2D" type="Node2D" parent="."]
-script = ExtResource("1_a1e13")
-chat = ExtResource("2_7e0je")
-player_scene = ExtResource("1_itmqi")
-
-[node name="Players" type="Node" parent="Node2D"]
-
-[node name="Camera2D" type="Camera2D" parent="Node2D"]
-anchor_mode = 0
-
-[node name="Area2D" type="Area2D" parent="Node2D"]
-position = Vector2(906, 248)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
-position = Vector2(-182.5, 52)
-shape = SubResource("RectangleShape2D_2uj2u")
-
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/Area2D"]
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("5_ido00")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Node2D/Area2D"]
-replication_config = SubResource("SceneReplicationConfig_y86vq")
-
-[node name="LevelGeometry" type="Node" parent="Node2D"]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/LevelGeometry"]
-physics_material_override = SubResource("PhysicsMaterial_12046")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/StaticBody2D"]
-position = Vector2(575.5, 445)
-shape = SubResource("RectangleShape2D_rbl7n")
-
-[node name="GrappleZones" type="Node" parent="Node2D/LevelGeometry"]
-
-[node name="Area2D" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
-position = Vector2(100, 100)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D"]
-shape = SubResource("RectangleShape2D_oue8t")
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://character_body_2d.tscn")
-spawn_path = NodePath("../Node2D/Players")
-spawn_limit = 2
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -124,7 +80,117 @@ grow_horizontal = 0
 [node name="Chat" parent="Control/VBoxContainer3" instance=ExtResource("2_7e0je")]
 layout_mode = 2
 
-[connection signal="body_shape_entered" from="Node2D/Area2D" to="." method="_on_area_2d_body_shape_entered"]
-[connection signal="body_shape_exited" from="Node2D/Area2D" to="." method="_on_area_2d_body_shape_exited"]
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("1_a1e13")
+chat = ExtResource("2_7e0je")
+player_scene = ExtResource("1_itmqi")
+
+[node name="Camera2D" type="Camera2D" parent="Node2D"]
+anchor_mode = 0
+zoom = Vector2(0.5, 0.5)
+
+[node name="Area2D" type="Area2D" parent="Node2D"]
+position = Vector2(100000, 248)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
+position = Vector2(-182.5, 52)
+shape = SubResource("RectangleShape2D_2uj2u")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Area2D"]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_ido00")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Node2D/Area2D"]
+replication_config = SubResource("SceneReplicationConfig_y86vq")
+
+[node name="LevelGeometry" type="Node" parent="Node2D"]
+
+[node name="GrappleZones" type="Node" parent="Node2D/LevelGeometry"]
+
+[node name="Node2D" parent="Node2D/LevelGeometry/GrappleZones" instance=ExtResource("6_7a1x4")]
+position = Vector2(1979, 298)
+
+[node name="Node2D2" parent="Node2D/LevelGeometry/GrappleZones" instance=ExtResource("6_7a1x4")]
+position = Vector2(300, 298)
+
+[node name="Area2D4" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
+position = Vector2(1152, 1275)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D4"]
+shape = SubResource("RectangleShape2D_qqfhb")
+
+[node name="Area2D5" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
+position = Vector2(1152, 21)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D5"]
+shape = SubResource("RectangleShape2D_qqfhb")
+
+[node name="Area2D6" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
+position = Vector2(25, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D6"]
+shape = SubResource("RectangleShape2D_trdn4")
+
+[node name="Area2D7" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
+position = Vector2(2279, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D7"]
+shape = SubResource("RectangleShape2D_trdn4")
+
+[node name="Area2D8" type="Area2D" parent="Node2D/LevelGeometry/GrappleZones"]
+position = Vector2(1152, 648)
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node2D/LevelGeometry/GrappleZones/Area2D8"]
+polygon = PackedVector2Array(100, 50, 300, 50, 300, -50, 100, -50, 100, -400, -100, -400, -100, -50, -300, -50, -300, 50, -100, 50, -100, 400, 100, 400)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Node2D/LevelGeometry"]
+position = Vector2(1152, 1275)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/StaticBody2D3"]
+shape = SubResource("RectangleShape2D_qqfhb")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Node2D/LevelGeometry"]
+position = Vector2(1152, 21)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/StaticBody2D4"]
+shape = SubResource("RectangleShape2D_qqfhb")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Node2D/LevelGeometry"]
+position = Vector2(25, 648)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/StaticBody2D5"]
+shape = SubResource("RectangleShape2D_64yig")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Node2D/LevelGeometry"]
+position = Vector2(2279, 648)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/LevelGeometry/StaticBody2D6"]
+shape = SubResource("RectangleShape2D_64yig")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Node2D/LevelGeometry"]
+position = Vector2(1152, 648)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node2D/LevelGeometry/StaticBody2D7"]
+polygon = PackedVector2Array(100, 50, 300, 50, 300, -50, 100, -50, 100, -400, -100, -400, -100, -50, -300, -50, -300, 50, -100, 50, -100, 400, 100, 400)
+
+[node name="Players" type="Node" parent="Node2D"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://character_body_2d.tscn", "res://hook,_grappling.tscn")
+spawn_path = NodePath("../Node2D/Players")
+spawn_limit = 8
+
 [connection signal="pressed" from="Control/VBoxContainer/host" to="Node2D" method="host"]
 [connection signal="pressed" from="Control/VBoxContainer/join" to="Node2D" method="on_join_pressed"]
+[connection signal="body_shape_entered" from="Node2D/Area2D" to="." method="_on_area_2d_body_shape_entered"]
+[connection signal="body_shape_exited" from="Node2D/Area2D" to="." method="_on_area_2d_body_shape_exited"]

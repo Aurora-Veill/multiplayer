@@ -16,6 +16,7 @@ func add_player(id = 1):
 	player.name = str(id)
 	$Players.add_child(player)
 	$"../Control/VBoxContainer3/Chat".add_message("Server", str(player.name) + " joined")
+	player.position = Vector2(100, 100)
 
 func on_join_pressed():
 	peer.create_client("localhost", 777)

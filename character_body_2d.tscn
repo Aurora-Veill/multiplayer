@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cfqeyvdth7qru" path="res://icon.svg" id="2_8wl2v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6id2c"]
-size = Vector2(132, 126)
+size = Vector2(64, 64)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ypgw1"]
 properties/0/path = NodePath(".:position")
@@ -20,6 +20,7 @@ shape = SubResource("RectangleShape2D_6id2c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0.215686, 0.870588, 1)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_8wl2v")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
